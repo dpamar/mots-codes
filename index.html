@@ -1,0 +1,53 @@
+<html>
+	<head>
+		<title>Generateur de mots codés pour Papi Daniel</title>
+		<script>
+function generate()
+{
+	var random = '';
+	for(var alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; alphabet.length; )
+	{
+		var index = ~~(Math.random()*alphabet.length);
+		random += alphabet[index];
+		alphabet = alphabet.substr(0, index)+alphabet.substr(index+1);
+	}
+	
+	var letters = ['<tr>','<tr>','<tr>','<tr>','<tr>','<tr>'];
+	[...random].map((x,i)=>{
+		letters[~~(i/13)*3] += `<td style="border: solid black 2px; text-align: center; width: 50px; font-weight: bold">${i+1}</td>`;
+		letters[~~(i/13)*3+1] += `<td style="border: solid black 2px; text-align: center; font-weight: bold">${x}</td>`;
+		letters[~~(i/13)*3+2] += `<td>&nbsp;</td>`;
+	});
+	document.getElementById('lettres').innerHTML = '<table style="border-spacing : 0; border-collapse : collapse;">'+letters.map(x=>x+'</tr>').join('')+'</table>';
+
+	var lines = document.getElementById('lignes').value.toUpperCase().split('\n');
+	var maxLength = Math.max(...lines.map(x=>x.length));
+	lines = lines.map(x=>{
+		var grid = ['<tr>','<tr>'];
+		[...(x+' '.repeat(maxLength)).substr(0, maxLength)].map(y=>{
+			var bg = y == ' ' ? 'background-color: black' : '';
+			grid[0] += `<td style="width: 40px; height: 10px; border-left: solid black 1px; border-top: solid black 1px;${bg}">&nbsp;</td><td style="text-align: right; width: 10px; height: 10px; border-right: solid black 1px; border-top: solid black 1px;${bg}">${y == ' ' ? '&nbsp;' : random.indexOf(y)+1}</td>`;
+			grid[1] += `<td style="width: 40px; height: 40px; border-left: solid black 1px; border-bottom: solid black 1px;${bg}">&nbsp;</td><td style="width: 10px; height: 40px; border-right: solid black 1px; border-bottom: solid black 1px;${bg}">&nbsp;</td>`;
+		});
+		return grid.map(x=>x+'</tr>').join('');
+	});
+	document.getElementById('grille').innerHTML = '<table style="border-spacing : 0; border-collapse : collapse;">'+lines.join('')+'</table>';
+}
+		</script>
+	</head>
+	<body>
+		Entrez la grille dans l'ordre, espace pour une case noire
+		<br/>
+		<textarea style="height: 300px; width: 500px;" id="lignes">cheval chiens
+elephant poulet
+alligator oiseau</textarea>
+		<br/>
+		<br/>
+		&nbsp;&nbsp;&nbsp;<input type="button" value="Go" onclick="generate();"/>
+		<br/>
+		<br/>
+		<div id="lettres"></div>
+		<br/>
+		<div id="grille"></div>
+	</body>
+</html>
