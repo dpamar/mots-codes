@@ -33,21 +33,39 @@ function generate()
 	});
 	document.getElementById('grille').innerHTML = '<table style="border-spacing : 0; border-collapse : collapse;">'+lines.join('')+'</table>';
 }
+
+function hide() {
+	var h = true;
+	for(var i=0; i<document.body.children.length; i++){
+		x = document.body.children[i];
+		if(x.id && x.id == 'lettres') h = false;
+		if(h) x.style.display='none';
+	}
+}
+function show() {
+	var h = true;
+	for(var i=0; i<document.body.children.length; i++){
+		x = document.body.children[i];
+		if(x.id && x.id == 'lettres') h = false;
+		if(h) x.style.display='inline';
+	}
+}
 		</script>
 	</head>
 	<body>
-		Entrez la grille dans l'ordre, espace pour une case noire
+		<p>Entrez la grille dans l'ordre, espace pour une case noire</p>
 		<br/>
 		<textarea style="height: 300px; width: 500px;" id="lignes">cheval chiens
 elephant poulet
 alligator oiseau</textarea>
 		<br/>
 		<br/>
-		&nbsp;&nbsp;&nbsp;<input type="button" value="Go" onclick="generate();"/>
 		<br/>
+		&nbsp;&nbsp;&nbsp;<input type="button" value="Go" onclick="generate();"/>
+		&nbsp;&nbsp;&nbsp;<input type="button" value="Masquer pour impression (clic sur la grille pour faire reapparaitre)" onclick="hide();"/>
 		<br/>
 		<div id="lettres"></div>
 		<br/>
-		<div id="grille"></div>
+		<div id="grille" onclick="show();"></div>
 	</body>
 </html>
